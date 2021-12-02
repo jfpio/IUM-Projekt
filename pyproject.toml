@@ -2,7 +2,10 @@
 name = "project_name"
 version = "0.1.0"
 description = ""
-authors = ["Łukasz Neumann <lukasz.neumann@pw.edu.pl>"]
+authors = [
+    "Jan Piotrowski <jan.piotrowski3.stud@pw.edu.pl>",
+    "Bartosz Kopeć <bartosz.kopec.stud@pw.edu.pl>"
+]
 
 [tool.poetry.dependencies]
 python = "^3.8"

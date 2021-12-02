@@ -55,4 +55,14 @@ Setting up the environment
 4. To add a new package run `poetry add <package>`. Don't forget to commit the lockfile.
 5. To run unit tests for your service use `poetry run pytest` or simply `pytest` within `poetry shell`.
 
+#Jupyter Notebook
+```shell
+jupyter notebook
+```
+
+and google colab adress for example notebook
+https://colab.research.google.com/github/jfpio/IUM-Projekt/blob/main/notebooks/Example%20Notebook.ipynb
+
 <p><small>Project partially based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
+
+
