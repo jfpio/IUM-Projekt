@@ -61,7 +61,7 @@ jupyter notebook
 ```
 
 and google colab adress for example notebook
-https://colab.research.google.com/github/jfpio/IUM-Projekt/blob/main/notebooks/Example%20Notebook.ipynb
+https://colab.research.google.com/github/jfpio/IUM-Projekt/blob/process_to_csv/notebooks/Example%20Notebook.ipynb
 
 <p><small>Project partially based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
 
