@@ -1,32 +1,59 @@
-# -*- coding: utf-8 -*-
-import click
+import os
 import logging
-from pathlib import Path
+from collections import namedtuple
+import pandas as pd
+
+from IUM.data.divide_dataset_into_training_and_testing_sets import split_randomly_dataset_into_two_sets
+from IUM.data.make_csv_from_jsonl import make_csv_from_jsonl
 
 
-@click.command()
-@click.argument('input_filepath', type=click.Path(exists=True))
-@click.argument('output_filepath', type=click.Path())
-def main(input_filepath, output_filepath):
+def process_to_csv() -> None:
     """ Runs data processing scripts to turn raw data from (../raw) into
         cleaned data ready to be analyzed (saved in ../processed).
     """
-    logger = logging.getLogger(__name__)
-    logger.info('making final data set from raw data')
+    FileToProcess = namedtuple('FileToProcess', ['relative_input_path', 'relative_output_path'])
+    files_to_process = [
+        FileToProcess('data/raw/sessions.jsonl', 'data/processed/sessions.csv'),
+        FileToProcess('data/raw/products.jsonl', 'data/processed/products.csv')
+    ]
+    for file_to_process in files_to_process:
+        make_csv_from_jsonl(
+            make_absolute_path_from_relative(file_to_process.relative_input_path),
+            make_absolute_path_from_relative(file_to_process.relative_output_path)
+        )
+
+
+def divide_datasets_into_training_and_testing_set() -> None:
+    FileToProcess = namedtuple('FileToProcess', ['relative_input_csv_file_path',
+                                                 'training_set_relative_output_csv_file_path',
+                                                 'testing_set_relative_output_csv_file_path',
+                                                 'ratio'
+                                                 ])
+    files_to_process = [
+        FileToProcess('data/processed/sessions.csv',
+                      'data/processed/testing_sessions.csv',
+                      'data/processed/training_sessions.csv',
+                      0.3
+                      )
+    ]
+    for file_to_process in files_to_process:
+        first_dataset, second_dataset = split_randomly_dataset_into_two_sets(
+            pd.read_csv(make_absolute_path_from_relative(file_to_process.relative_input_csv_file_path)),
+            'session_id',
+            file_to_process.ratio)
+        first_dataset.to_csv(make_absolute_path_from_relative(file_to_process.training_set_relative_output_csv_file_path))
+        second_dataset.to_csv(make_absolute_path_from_relative(file_to_process.testing_set_relative_output_csv_file_path))
+
+
+def make_absolute_path_from_relative(relative_path) -> str:
+    """This should work automatically, you can also change absolute path with uncommenting first line """
+    # return f"{YOUR_PATH_TO_DIR}/relative_path"
+    return os.path.join(os.path.dirname(__file__), '../../', relative_path)
 
 
 if __name__ == '__main__':
     log_fmt = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     logging.basicConfig(level=logging.INFO, format=log_fmt)
 
-    # not used in this stub but often useful for finding various files
-    project_dir = Path(__file__).resolve().parents[2]
-
-    main()
-
-
-def dummy_sum(a, b):
-    """Used exclusively to showcase relative imports in tests. See
-       tests/test_make_dataset.py in the repo.
-    """
-    return a + b
+    process_to_csv()
+    divide_datasets_into_training_and_testing_set()
