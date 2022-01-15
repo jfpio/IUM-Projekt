@@ -1,10 +1,40 @@
-IUM
-==============================
+# IUM
+ML small project for studies created by Jan Piotrowski and Bartosz Kopeć. We have to classify if clients will buy something in theirs session or not. 
 
-A short description of the project.
+## Setting up the environment
+1. Install `poetry`: https://python-poetry.org/docs/#installation
+2. Create an environment with `poetry install`
+3. Run `poetry shell`
+4. To add a new package run `poetry add <package>`. Don't forget to commit the lockfile.
+5. To run unit tests for your service use `poetry run pytest` or simply `pytest` within `poetry shell`.
 
-Project Organization
-------------
+## Jupyter Notebook
+To start jupyter notebook
+```shell
+jupyter notebook
+```
+
+##  API
+To start the server
+```shell
+uvicorn IUM.main:app
+```
+
+Next, you can make "get" request to check if server is running [127.0.0.1:8000](http://127.0.0.1:8000)
+
+To call "classify" model method make request to [127.0.0.1:8000/classify](http://127.0.0.1:8000/classify)
+with JSON as body
+```json
+{
+  "session_id": int,
+  "user_id": int,
+  "product_id": int
+}
+```
+
+You could also make request in [docs](http://127.0.0.1:8000/docs#/default/classify_classify__post). You have to click "Try it out" and change ids. This should be the easiest method to test app.
+
+## Project Organization
 
     ├── README.md          <- The top-level README for developers using this project.
     ├── data
@@ -41,28 +71,3 @@ Project Organization
     ├── poetry.lock        <- Lockfile which allows complete environment reproduction
     │
     └── pyproject.toml     <- file with settings and dependencies for the environment
-
-
---------
-
-
-Setting up the environment
-------------
-
-1. Install `poetry`: https://python-poetry.org/docs/#installation
-2. Create an environment with `poetry install`
-3. Run `poetry shell`
-4. To add a new package run `poetry add <package>`. Don't forget to commit the lockfile.
-5. To run unit tests for your service use `poetry run pytest` or simply `pytest` within `poetry shell`.
-
-#Jupyter Notebook
-```shell
-jupyter notebook
-```
-
-and google colab adress for example notebook
-https://colab.research.google.com/github/jfpio/IUM-Projekt/blob/process_to_csv/notebooks/Example%20Notebook.ipynb
-
-<p><small>Project partially based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
-
-
