@@ -4,7 +4,7 @@ from typing import Tuple
 import pandas as pd
 
 
-def split_randomly_dataset_into_two_sets(dataset,
+def split_randomly_dataset_into_two_sets(dataset: pd.DataFrame,
                                          attribute_to_group_by,
                                          divide_ratio,
                                          ) -> Tuple[pd.DataFrame, pd.DataFrame]:

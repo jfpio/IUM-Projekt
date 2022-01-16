@@ -1,4 +1,12 @@
 import pandas as pd
+import json
+
+
+def get_user_sessions_bought_to_all_sessions_ratio_and_save_to_json(dataframe, path):
+    ratio_dict = get_user_sessions_bought_to_all_sessions_ratio(dataframe)
+    with open(path, 'w') as outfile:
+        json.dump(ratio_dict, outfile)
+    return ratio_dict
 
 
 def get_user_sessions_bought_to_all_sessions_ratio(sessions_df: pd.DataFrame) -> dict:
