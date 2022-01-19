@@ -11,7 +11,7 @@ modelDef = tf.keras.models.Sequential([
 ])
 
 # compile model with optimizer and loss function
-model.compile(
+modelDef.compile(
     optimizer = 'adam',
     loss = tf.keras.losses.BinaryCrossentropy(from_logits=False),
     metrics=['accuracy']

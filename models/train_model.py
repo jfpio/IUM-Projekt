@@ -1,8 +1,11 @@
 import tensorflow as tf
 import numpy as np
 import pandas as pd
+import warnings
+warnings.filterwarnings('ignore')
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 from modelDefinition import modelDef
-print("TensorFlow version:", tf.__version__)
 
 # Input parameters in keras model:
 # session_number - number of sessions with same session_id
@@ -31,6 +34,8 @@ train_data_processed = np.column_stack((train_session_number, train_session_leng
                                         train_unique_products_count, train_bought_number))
 
 # load test data here
+test_data = pd.read_csv("../data/processed/testing_set.csv")
+
 test_session_number = test_data['total_views']
 test_session_length = test_data['time_in_minutes']
 test_unique_products = test_data['unique_products']
@@ -51,10 +56,10 @@ test_data_processed = np.column_stack((test_session_number, test_session_length,
 model = modelDef
 
 # train model, by adjusting model weights and minimize loss (in 5 iterations)
-model.fit(train_data, train_labels, epochs=5)
+model.fit(train_data_processed, train_labels, epochs=5)
 
 # ecaluate model
-model.evaluate(test_data, test_labels, verbose=2)
+model.evaluate(test_data_processed, test_labels, verbose=2)
 
 # save model weights
 model.save_weights('test_model_weights.h5f', overwrite=True)
