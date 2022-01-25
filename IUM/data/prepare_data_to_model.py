@@ -5,9 +5,9 @@ def prepare_data_to_model(sessions_df, ratio_dict):
 
     sessions_when_bought_grouped = sessions_df[sessions_df.event_type == 'BUY_PRODUCT'].groupby('session_id').count()[
         'event_type']
-    data_to_model = grouped_sessions\
-        .join(sessions_when_bought_grouped, rsuffix="bought")\
-        .fillna(0)\
+    data_to_model = grouped_sessions \
+        .join(sessions_when_bought_grouped, rsuffix="bought") \
+        .fillna(0) \
         .rename(columns={"event_type": "ended_with_bought"})
 
     data_to_model['user_bought_to_total_sessions_ratio'] = data_to_model['user_id'].map(lambda x: ratio_dict[x])

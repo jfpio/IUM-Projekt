@@ -4,7 +4,8 @@ from random import seed
 import pandas as pd
 
 from IUM.data.divide_dataset_into_training_and_testing_sets import split_randomly_dataset_into_two_sets
-from IUM.data.get_user_sessions_bought_to_all_sessions_ratio import get_user_sessions_bought_to_all_sessions_ratio_and_save_to_json
+from IUM.data.get_user_sessions_bought_to_all_sessions_ratio import \
+    get_user_sessions_bought_to_all_sessions_ratio_and_save_to_json
 from IUM.data.make_csv_from_jsonl import make_csv_from_jsonl
 from IUM.data.prepare_data_to_model import prepare_data_to_model
 

@@ -41,8 +41,10 @@ def divide_datasets_into_training_and_testing_set() -> None:
             pd.read_csv(make_absolute_path_from_relative(file_to_process.relative_input_csv_file_path)),
             'session_id',
             file_to_process.ratio)
-        first_dataset.to_csv(make_absolute_path_from_relative(file_to_process.training_set_relative_output_csv_file_path))
-        second_dataset.to_csv(make_absolute_path_from_relative(file_to_process.testing_set_relative_output_csv_file_path))
+        first_dataset.to_csv(
+            make_absolute_path_from_relative(file_to_process.training_set_relative_output_csv_file_path))
+        second_dataset.to_csv(
+            make_absolute_path_from_relative(file_to_process.testing_set_relative_output_csv_file_path))
 
 
 def make_absolute_path_from_relative(relative_path) -> str:
