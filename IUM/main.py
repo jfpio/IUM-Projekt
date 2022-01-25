@@ -3,9 +3,9 @@ from random import randrange
 from fastapi import FastAPI
 from jsonlines import jsonlines
 
-from models.predictPurchase import basic_prediction_model, predict_purchase
-from .data.main import prepare_data_to_model_request
-from .models import UserEvent, DataToModel
+from IUM.model.predictPurchase import basic_prediction_model, predict_purchase
+from IUM.data.main import prepare_data_to_model_request
+from IUM.models import UserEvent, DataToModel
 
 app = FastAPI()
 
@@ -16,7 +16,7 @@ def write_event_to_sessions(user_event: UserEvent):
 
 
 def write_to_log(data_to_model: DataToModel, result: int, model_type: str):
-    with jsonlines.open('output.jsonl', mode='a') as writer:
+    with jsonlines.open('/home/janek/Projekty/IUM/IUM/logs.jsonl', mode='a') as writer:
         writer.write({
             'parameters': data_to_model._asdict(),
             'result': result,
@@ -37,7 +37,7 @@ async def classify(user_event: UserEvent):
     if randrange(2) % 2:
         result = predict_purchase(data_to_model_request)
         write_to_log(
-            data_to_model_request, result, "NN_MODEL"
+            data_to_model_request, 1, "NN_MODEL"
         )
     else:
         result = basic_prediction_model(data_to_model_request)
