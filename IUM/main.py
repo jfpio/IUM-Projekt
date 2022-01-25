@@ -11,12 +11,12 @@ app = FastAPI()
 
 
 def write_event_to_sessions(user_event: UserEvent):
-    with jsonlines.open('/home/janek/Projekty/IUM/data/raw/sessions.jsonl', mode='a') as writer:
+    with jsonlines.open('/home/student/github/IUM-Projekt/data/raw/sessions.jsonl', mode='a') as writer:
         writer.write(user_event.dict())
 
 
-def write_to_log(data_to_model: DataToModel, result: int, model_type: str):
-    with jsonlines.open('/home/janek/Projekty/IUM/IUM/logs.jsonl', mode='a') as writer:
+def write_to_log(data_to_model: DataToModel, result: float, model_type: str):
+    with jsonlines.open('logs.jsonl', mode='a') as writer:
         writer.write({
             'parameters': data_to_model._asdict(),
             'result': result,
@@ -34,10 +34,10 @@ async def classify(user_event: UserEvent):
     write_event_to_sessions(user_event)
     data_to_model_request = prepare_data_to_model_request(user_event)
 
-    if randrange(2) % 2:
+    if randrange(2) % 2 == 1:
         result = predict_purchase(data_to_model_request)
         write_to_log(
-            data_to_model_request, 1, "NN_MODEL"
+            data_to_model_request, result, "NN_MODEL"
         )
     else:
         result = basic_prediction_model(data_to_model_request)

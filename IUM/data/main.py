@@ -12,7 +12,7 @@ from IUM.models import UserEvent, DataToModel
 
 
 def prepare_data_to_model_request(user_event: UserEvent):
-    all_sessions_df = pd.read_json(make_absolute_path_from_relative('/home/janek/Projekty/IUM/data/raw/sessions.jsonl'),
+    all_sessions_df = pd.read_json(make_absolute_path_from_relative('/home/student/github/IUM-Projekt/data/raw/sessions.jsonl'),
                                    lines=True)
     ratio_dict = get_user_sessions_bought_to_all_sessions_ratio(all_sessions_df)
     data_df = prepare_data_to_model(all_sessions_df, ratio_dict)
