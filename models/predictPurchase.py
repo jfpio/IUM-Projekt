@@ -2,15 +2,15 @@ import os.path
 from modelDefinition import modelDef
 
 
-def predictPurchase(modelInput):
+def predict_purchase(model_input):
     model = modelDef
     if os.path.exists('dqn_weights.h5f'):
         model.load_weights('dqn_weights.h5f')
-    return model(modelInput)
+    return model(model_input)
 
 
-def basicPredictionModel(modelInput):
-    if 10 <= modelInput[1] <= 15:
+def basic_prediction_model(model_input):
+    if 10 <= model_input[1] <= 15:
         return 1
     else:
         return 0

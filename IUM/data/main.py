@@ -5,9 +5,25 @@ import pandas as pd
 
 from IUM.data.divide_dataset_into_training_and_testing_sets import split_randomly_dataset_into_two_sets
 from IUM.data.get_user_sessions_bought_to_all_sessions_ratio import \
-    get_user_sessions_bought_to_all_sessions_ratio_and_save_to_json
+    get_user_sessions_bought_to_all_sessions_ratio_and_save_to_json, get_user_sessions_bought_to_all_sessions_ratio
 from IUM.data.make_csv_from_jsonl import make_csv_from_jsonl
 from IUM.data.prepare_data_to_model import prepare_data_to_model
+from IUM.models import UserEvent, DataToModel
+
+
+def prepare_data_to_model_request(user_event: UserEvent):
+    all_sessions_df = pd.read_json(make_absolute_path_from_relative('/home/janek/Projekty/IUM/data/raw/sessions.jsonl'),
+                                   lines=True)
+    ratio_dict = get_user_sessions_bought_to_all_sessions_ratio(all_sessions_df)
+    data_df = prepare_data_to_model(all_sessions_df, ratio_dict)
+    row = data_df.iloc[user_event.session_id]
+
+    return DataToModel(
+        int(row['total_views']),
+        int(row['time_in_minutes']),
+        len(row['unique_products']),
+        float(row['user_bought_to_total_sessions_ratio'])
+    )
 
 
 def process_data():

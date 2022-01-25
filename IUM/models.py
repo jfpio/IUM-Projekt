@@ -1,6 +1,6 @@
+from collections import namedtuple
 from datetime import datetime
 from dataclasses import dataclass
-from enum import Enum, auto
 from typing import Optional
 
 from pydantic import BaseModel
@@ -14,11 +14,6 @@ class ModelData:
     user_bought_to_total_sessions_ratio: float
 
 
-class Model(Enum):
-    BASE_MODEL: auto()
-    NN_MODEL: auto()
-
-
 class UserEvent(BaseModel):
     session_id: int
     user_id: int
@@ -29,3 +24,9 @@ class UserEvent(BaseModel):
     offered_discount: int = 0
 
 
+DataToModel = namedtuple("DataToModel", [
+    'total_views',
+    'time_in_minutes',
+    'unique_products',
+    'user_bought_to_total_sessions_ratio'
+])

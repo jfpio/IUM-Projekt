@@ -1,14 +1,13 @@
+from random import randrange
+
 from fastapi import FastAPI
 from jsonlines import jsonlines
 
-from .models import UserEvent, Model
+from models.predictPurchase import basic_prediction_model, predict_purchase
+from .data.main import prepare_data_to_model_request
+from .models import UserEvent, DataToModel
 
 app = FastAPI()
-
-
-def classify_client(user_event: UserEvent):
-    print(user_event)
-    return 1
 
 
 def write_event_to_sessions(user_event: UserEvent):
@@ -16,10 +15,10 @@ def write_event_to_sessions(user_event: UserEvent):
         writer.write(user_event.dict())
 
 
-def write_to_log(parameters, result: int, model_type: Model):
+def write_to_log(data_to_model: DataToModel, result: int, model_type: str):
     with jsonlines.open('output.jsonl', mode='a') as writer:
         writer.write({
-            'parameters': parameters,
+            'parameters': data_to_model._asdict(),
             'result': result,
             'model_type': model_type
         })
@@ -33,5 +32,17 @@ async def root():
 @app.post("/classify/")
 async def classify(user_event: UserEvent):
     write_event_to_sessions(user_event)
+    data_to_model_request = prepare_data_to_model_request(user_event)
 
-    return classify_client(user_event)
+    if randrange(2) % 2:
+        result = predict_purchase(data_to_model_request)
+        write_to_log(
+            data_to_model_request, result, "NN_MODEL"
+        )
+    else:
+        result = basic_prediction_model(data_to_model_request)
+        write_to_log(
+            data_to_model_request, result, "BASIC_MODEL"
+        )
+
+    return result
